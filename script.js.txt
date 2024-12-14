@@ -1,0 +1,64 @@
+let players = [];
+let roles = [];
+const rolesPool = ["مافيا", "مواطن", "طبيب", "محقق"];
+
+// إضافة اللاعبين
+document.getElementById("add-player").addEventListener("click", () => {
+    const playerName = document.getElementById("player-name").value.trim();
+    if (playerName && !players.includes(playerName)) {
+        players.push(playerName);
+        updatePlayerList();
+        document.getElementById("player-name").value = "";
+        document.getElementById("start-game").disabled = players.length < 4;
+    }
+});
+
+// تحديث قائمة اللاعبين
+function updatePlayerList() {
+    const playerList = document.getElementById("player-list");
+    playerList.innerHTML = "";
+    players.forEach((player) => {
+        const li = document.createElement("li");
+        li.textContent = player;
+        playerList.appendChild(li);
+    });
+}
+
+// بدء اللعبة
+document.getElementById("start-game").addEventListener("click", () => {
+    distributeRoles();
+    document.getElementById("player-setup").style.display = "none";
+    document.getElementById("game-play").style.display = "block";
+    showCurrentTurn();
+});
+
+// توزيع الأدوار
+function distributeRoles() {
+    roles = [...rolesPool];
+    while (roles.length < players.length) {
+        roles.push("مواطن"); // أضف مواطنين إذا كان عدد اللاعبين كبيرًا
+    }
+    roles = shuffleArray(roles);
+}
+
+// خلط الأدوار عشوائيًا
+function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+// عرض الدور الحالي
+let currentTurn = 0;
+function showCurrentTurn() {
+    if (currentTurn < players.length) {
+        document.getElementById("current-turn").textContent = players[currentTurn];
+        document.getElementById("role-display").textContent = `دورك هو: ${roles[currentTurn]}`;
+        currentTurn++;
+    } else {
+        document.getElementById("current-turn").textContent = "اللعبة انتهت!";
+        document.getElementById("role-display").textContent = "";
+        document.getElementById("next-turn").disabled = true;
+    }
+}
+
+// التالي
+document.getElementById("next-turn").addEventListener("click", showCurrentTurn);

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KwMAfia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>KwMAfia</h1>
+    <div id="game-container">
+        <div id="player-setup">
+            <h2>أدخل أسماء اللاعبين</h2>
+            <input type="text" id="player-name" placeholder="اسم اللاعب">
+            <button id="add-player">إضافة</button>
+            <ul id="player-list"></ul>
+            <button id="start-game" disabled>بدء اللعبة</button>
+        </div>
+        <div id="game-play" style="display: none;">
+            <h2>الدور الحالي: <span id="current-turn">إعداد اللعبة</span></h2>
+            <div id="role-display"></div>
+            <button id="next-turn">التالي</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
