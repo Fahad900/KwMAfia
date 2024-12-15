@@ -9,30 +9,42 @@
 <body>
     <h1>KwMafia</h1>
 
-    <!-- القائمة الرئيسية -->
-    <div id="main-menu">
-        <h2>مرحبًا بكم في KwMafia!</h2>
-        <p>انضم إلى عالم مليء بالمغامرات والتحديات، واكتشف المجرمين قبل وقوع الأرواح.</p>
-        <button id="start-button">ابدأ اللعبة</button>
-    </div>
-
     <!-- إعداد اللاعبين -->
-    <div id="player-setup" style="display: none;">
-        <h2>إضافة اللاعبين</h2>
+    <div id="player-setup">
+        <h2>إعداد اللاعبين</h2>
         <input type="text" id="player-name" placeholder="اسم اللاعب">
         <button id="add-player">إضافة</button>
         <ul id="player-list"></ul>
         <button id="start-game" disabled>بدء اللعبة</button>
     </div>
 
-    <!-- أثناء اللعبة -->
+    <!-- واجهة اللعبة -->
     <div id="game-play" style="display: none;">
-        <h2>الدور الحالي:</h2>
-        <div id="role-display">
-            <img id="role-image" src="" alt="دور اللاعب" style="width: 200px; height: auto; display: none;">
-            <h2 id="role-name"></h2>
-        </div>
+        <h2 id="role-name"></h2>
+        <img id="role-image" src="" alt="دور اللاعب" style="width: 200px; height: auto; display: none;">
         <button id="next-turn" style="display: none;">التالي</button>
+    </div>
+
+    <!-- واجهة المحقق -->
+    <div id="investigator-mode" style="display: none;">
+        <h2>تحقيق المحقق</h2>
+        <select id="ask-player-select"></select>
+        <button id="ask-button">سؤال</button>
+        <p id="ask-result"></p>
+    </div>
+
+    <!-- الدردشة والتصويت -->
+    <div id="chat-voting-area" style="display: none;">
+        <h2>دردشة اللاعبين</h2>
+        <div id="chat-box">
+            <ul id="chat-messages"></ul>
+        </div>
+        <input type="text" id="chat-input" placeholder="اكتب رسالة...">
+        <button id="send-chat">إرسال</button>
+
+        <h2>التصويت العلني</h2>
+        <ul id="vote-list"></ul>
+        <button id="submit-vote">إرسال التصويت</button>
     </div>
 
     <script src="script.js"></script>
