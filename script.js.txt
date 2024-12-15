@@ -1,15 +1,21 @@
 let players = [];
 let roles = [];
-const rolesPool = ["مافيا", "مواطن", "طبيب", "محقق"];
+const rolePool = ["مافيا", "طبيب", "محقق", "مدني"];
 
-// إضافة اللاعبين
+// بدء اللعبة
+document.getElementById("start-button").addEventListener("click", () => {
+    document.getElementById("main-menu").style.display = "none";
+    document.getElementById("player-setup").style.display = "block";
+});
+
+// إضافة لاعب
 document.getElementById("add-player").addEventListener("click", () => {
     const playerName = document.getElementById("player-name").value.trim();
     if (playerName && !players.includes(playerName)) {
         players.push(playerName);
         updatePlayerList();
         document.getElementById("player-name").value = "";
-        document.getElementById("start-game").disabled = players.length < 4;
+        document.getElementById("start-game").disabled = players.length < 5;
     }
 });
 
@@ -17,27 +23,33 @@ document.getElementById("add-player").addEventListener("click", () => {
 function updatePlayerList() {
     const playerList = document.getElementById("player-list");
     playerList.innerHTML = "";
-    players.forEach((player) => {
+    players.forEach(player => {
         const li = document.createElement("li");
         li.textContent = player;
         playerList.appendChild(li);
     });
 }
 
-// بدء اللعبة
+// توزيع الأدوار
 document.getElementById("start-game").addEventListener("click", () => {
     distributeRoles();
+    displayRole(roles[0]); // عرض الدور الأول
     document.getElementById("player-setup").style.display = "none";
     document.getElementById("game-play").style.display = "block";
-    showCurrentTurn();
 });
 
 // توزيع الأدوار
 function distributeRoles() {
-    roles = [...rolesPool];
+    const mafiaCount = Math.ceil(players.length / 5);
+    roles = Array(mafiaCount).fill("مافيا");
+
+    if (players.length >= 6) roles.push("طبيب");
+    if (players.length >= 7) roles.push("محقق");
+
     while (roles.length < players.length) {
-        roles.push("مواطن"); // أضف مواطنين إذا كان عدد اللاعبين كبيرًا
+        roles.push("مدني");
     }
+
     roles = shuffleArray(roles);
 }
 
@@ -46,19 +58,32 @@ function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
-// عرض الدور الحالي
-let currentTurn = 0;
-function showCurrentTurn() {
-    if (currentTurn < players.length) {
-        document.getElementById("current-turn").textContent = players[currentTurn];
-        document.getElementById("role-display").textContent = `دورك هو: ${roles[currentTurn]}`;
-        currentTurn++;
-    } else {
-        document.getElementById("current-turn").textContent = "اللعبة انتهت!";
-        document.getElementById("role-display").textContent = "";
-        document.getElementById("next-turn").disabled = true;
-    }
-}
+// عرض الدور والصورة
+function displayRole(role) {
+    const roleImage = document.getElementById("role-image");
+    const roleName = document.getElementById("role-name");
 
-// التالي
-document.getElementById("next-turn").addEventListener("click", showCurrentTurn);
+    switch (role) {
+        case "مدني":
+            roleImage.src = "images/civilian.png";
+            roleName.textContent = "مدني";
+            break;
+        case "محقق":
+            roleImage.src = "images/Investigator.png";
+            roleName.textContent = "محقق";
+            break;
+        case "طبيب":
+            roleImage.src = "images/doctor.png";
+            roleName.textContent = "طبيب";
+            break;
+        case "مافيا":
+            roleImage.src = "images/Mafia.png";
+            roleName.textContent = "مافيا";
+            break;
+        default:
+            roleImage.src = "";
+            roleName.textContent = "غير معروف";
+    }
+
+    roleImage.style.display = "block";
+}
