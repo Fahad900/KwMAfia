@@ -9,16 +9,16 @@
 <body>
     <h1>KwMafia</h1>
 
-    <!-- الواجهة الرئيسية -->
+    <!-- القائمة الرئيسية -->
     <div id="main-menu">
-        <h2>مرحبًا بكم في لعبة KwMafia!</h2>
-        <p>انضم إلى عالم مليء بالمافيا والمدنيين، واكتشف الجناة قبل وقوع الأرواح.</p>
+        <h2>مرحبًا بكم في KwMafia!</h2>
+        <p>انضم إلى عالم مليء بالمغامرات والتحديات، واكتشف المجرمين قبل وقوع الأرواح.</p>
         <button id="start-button">ابدأ اللعبة</button>
     </div>
 
     <!-- إعداد اللاعبين -->
     <div id="player-setup" style="display: none;">
-        <h2>إعداد اللاعبين</h2>
+        <h2>إضافة اللاعبين</h2>
         <input type="text" id="player-name" placeholder="اسم اللاعب">
         <button id="add-player">إضافة</button>
         <ul id="player-list"></ul>
@@ -27,7 +27,7 @@
 
     <!-- أثناء اللعبة -->
     <div id="game-play" style="display: none;">
-        <h2>دورك الحالي</h2>
+        <h2>الدور الحالي:</h2>
         <div id="role-display">
             <img id="role-image" src="" alt="دور اللاعب" style="width: 200px; height: auto; display: none;">
             <h2 id="role-name"></h2>
