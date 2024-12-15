@@ -1,89 +1,91 @@
-let players = [];
-let roles = [];
-const rolePool = ["مافيا", "طبيب", "محقق", "مدني"];
+// تخزين أسماء اللاعبين
+const players = [];
+const roles = ["مافيا", "طبيب", "محقق", "مدني"];
+
+// العناصر الرئيسية
+const startButton = document.getElementById("start-button");
+const playerSetupDiv = document.getElementById("player-setup");
+const playerNameInput = document.getElementById("player-name");
+const addPlayerButton = document.getElementById("add-player");
+const playerList = document.getElementById("player-list");
+const startGameButton = document.getElementById("start-game");
+const gamePlayDiv = document.getElementById("game-play");
+const roleImage = document.getElementById("role-image");
+const roleName = document.getElementById("role-name");
+const nextTurnButton = document.getElementById("next-turn");
 
 // بدء اللعبة
-document.getElementById("start-button").addEventListener("click", () => {
-    document.getElementById("main-menu").style.display = "none";
-    document.getElementById("player-setup").style.display = "block";
+startButton.addEventListener("click", () => {
+    playerSetupDiv.style.display = "block";
+    startButton.style.display = "none";
 });
 
 // إضافة لاعب
-document.getElementById("add-player").addEventListener("click", () => {
-    const playerName = document.getElementById("player-name").value.trim();
-    if (playerName && !players.includes(playerName)) {
+addPlayerButton.addEventListener("click", () => {
+    const playerName = playerNameInput.value.trim();
+    if (playerName) {
         players.push(playerName);
-        updatePlayerList();
-        document.getElementById("player-name").value = "";
-        document.getElementById("start-game").disabled = players.length < 5;
+        const listItem = document.createElement("li");
+        listItem.textContent = playerName;
+        playerList.appendChild(listItem);
+        playerNameInput.value = "";
+
+        if (players.length >= 4) {
+            startGameButton.disabled = false;
+        }
     }
 });
 
-// تحديث قائمة اللاعبين
-function updatePlayerList() {
-    const playerList = document.getElementById("player-list");
-    playerList.innerHTML = "";
-    players.forEach(player => {
-        const li = document.createElement("li");
-        li.textContent = player;
-        playerList.appendChild(li);
-    });
-}
-
-// توزيع الأدوار
-document.getElementById("start-game").addEventListener("click", () => {
-    distributeRoles();
-    displayRole(roles[0]); // عرض الدور الأول
-    document.getElementById("player-setup").style.display = "none";
-    document.getElementById("game-play").style.display = "block";
+// بدء اللعبة الفعلية
+startGameButton.addEventListener("click", () => {
+    playerSetupDiv.style.display = "none";
+    gamePlayDiv.style.display = "block";
+    startTurn();
 });
 
-// توزيع الأدوار
-function distributeRoles() {
-    const mafiaCount = Math.ceil(players.length / 5);
-    roles = Array(mafiaCount).fill("مافيا");
-
-    if (players.length >= 6) roles.push("طبيب");
-    if (players.length >= 7) roles.push("محقق");
-
-    while (roles.length < players.length) {
-        roles.push("مدني");
+// بدء دور جديد
+let currentPlayerIndex = 0;
+function startTurn() {
+    if (currentPlayerIndex >= players.length) {
+        alert("انتهت اللعبة!");
+        return;
     }
 
-    roles = shuffleArray(roles);
+    const playerName = players[currentPlayerIndex];
+    const role = roles[Math.floor(Math.random() * roles.length)];
+
+    roleName.textContent = `${playerName}: ${role}`;
+    updateRoleImage(role);
+
+    roleImage.style.display = "block";
+    nextTurnButton.style.display = "block";
+
+    currentPlayerIndex++;
 }
 
-// خلط الأدوار عشوائيًا
-function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
-
-// عرض الدور والصورة
-function displayRole(role) {
-    const roleImage = document.getElementById("role-image");
-    const roleName = document.getElementById("role-name");
-
+// تحديث صورة الدور
+function updateRoleImage(role) {
     switch (role) {
-        case "مدني":
-            roleImage.src = "images/civilian.png";
-            roleName.textContent = "مدني";
+        case "مافيا":
+            roleImage.src = "images/Mafia.png";
+            break;
+        case "طبيب":
+            roleImage.src = "images/Doctor.png";
             break;
         case "محقق":
             roleImage.src = "images/Investigator.png";
-            roleName.textContent = "محقق";
             break;
-        case "طبيب":
-            roleImage.src = "images/doctor.png";
-            roleName.textContent = "طبيب";
-            break;
-        case "مافيا":
-            roleImage.src = "images/Mafia.png";
-            roleName.textContent = "مافيا";
+        case "مدني":
+            roleImage.src = "images/Civilian.png";
             break;
         default:
             roleImage.src = "";
-            roleName.textContent = "غير معروف";
     }
-
-    roleImage.style.display = "block";
 }
+
+// الانتقال إلى الدور التالي
+nextTurnButton.addEventListener("click", () => {
+    roleImage.style.display = "none";
+    nextTurnButton.style.display = "none";
+    startTurn();
+});
