@@ -14,15 +14,6 @@ h1 {
     margin: 0;
 }
 
-.main-menu {
-    max-width: 600px;
-    margin: 20px auto;
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-}
-
 button {
     padding: 10px 20px;
     margin: 10px 0;
@@ -38,11 +29,42 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#role-display {
-    margin-top: 20px;
+ul {
+    list-style: none;
+    padding: 0;
 }
 
-#role-image {
-    margin-top: 20px;
-    display: none;
+ul li {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: left;
+}
+
+#chat-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    height: 200px;
+    overflow-y: scroll;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+#chat-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#chat-messages li {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+#chat-input {
+    width: 70%;
+    padding: 10px;
+    margin-right: 5px;
 }
